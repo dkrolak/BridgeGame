@@ -62,7 +62,7 @@ BridgeGame.Login = (() => {
         socket.on('login success', data => {})
     }
 
-    //-----------Zdarzenia--------
+    //-----------Events--------
     
     onClickSubmit = (e) => {
         
@@ -79,7 +79,7 @@ BridgeGame.Login = (() => {
         }
        
     }
-    //---------Koniec_Zdarzeń------
+    //---------End Events------
     showMainPage = (roomsList) => {
  
         jqueryDOM.$login.fadeOut(config.login_fadeOut_time)
@@ -87,8 +87,7 @@ BridgeGame.Login = (() => {
         BridgeGame.RoomsList.init(states, roomsList)
          
     }
-    //-----------END_DOM--------
-    //-----------Funkcje---------
+
     postData = ()  => {
         
         let player = {
@@ -114,7 +113,7 @@ BridgeGame.Login = (() => {
         })
         
     };
-    //-----------Koniec_Funkcji-----
+
     //---------Public Method----
 
     init = $container => {
