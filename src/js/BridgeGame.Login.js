@@ -43,8 +43,7 @@ BridgeGame.Login = (() => {
         $container  : null,
         player_name   : ''
     } 
-    
-    //------------Mapa-----------
+   
     jqueryBuffer = () => {
         let $container = states.$container
 
