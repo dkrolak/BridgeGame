@@ -1,5 +1,3 @@
-
-
 var BridgeGame = window.BridgeGame || {}
 export var socket = io('http://localhost:8085');
 BridgeGame.Login = (() => {
