@@ -172,8 +172,6 @@ class Game {
             playerIndex = 0
         }
 
-        console.log(playerIndex)
-
         side = this.states.sides[playerIndex]
         player = this.players.find( obj => obj.player_side === side )
         playerSocket = player.socketId
@@ -215,9 +213,7 @@ class Game {
 
         let lastPlayerIndex = this.game_states.last_player
 
-        console.log(this.game_states.last_player)
         lastPlayerIndex += 1
-        console.log(lastPlayerIndex)
 
         if(lastPlayerIndex === 4){
 
@@ -256,51 +252,47 @@ class Game {
                 this.game_states.last_player = index
                 this.game_states.starting_player = this.states.sides[index]
             }
-            console.log("Kto zaczooooool")
-            console.group(this.game_states.starting_player)
+
         }
         let findFirstPlayer = (player_bid, side, first_player_hand, second_player_hand) => {
             
             if(player_bid.length === 0){
-                console.log('GRaczz ' + this.game_states.trump_info.player)
                 let index = this.states.sides.indexOf(this.game_states.trump_info.player)+1
                     ifOutOfArray(index)
                     this.game_states.declarer_player = this.game_states.trump_info.player
                     this.game_states.disable_player.player_side = side
                     this.game_states.disable_player.player_hand = second_player_hand
             } else {
-            player_bid.find(element => {
-                let value, color
+                player_bid.find(element => {
+                    let value, color
 
-                value = element.charAt(0)
-                color = element.charAt(1) + element.charAt(2)
+                    value = element.charAt(0)
+                    color = element.charAt(1) + element.charAt(2)
 
-                this.game_states.trump = color
+                    this.game_states.trump = color
 
-                console.log('what the ffuck')
-                console.log(side)
-                console.log(this.game_states.trump_info.player)
+                    if(color === this.game_states.trump_info.trump_card_obj.Suit){
+                        let index = this.states.sides.indexOf(side)+1
+                        
+                        ifOutOfArray(index)
+                        
+                        this.game_states.declarer_player = side
+                        this.game_states.disable_player.player_side = this.game_states.trump_info.player
+                        this.game_states.disable_player.player_hand = first_player_hand
 
-                if(color === this.game_states.trump_info.trump_card_obj.Suit){
-                    console.log("Gracz " + side)
-                    let index = this.states.sides.indexOf(side)+1
-                    ifOutOfArray(index)
-                    this.game_states.declarer_player = side
-                    this.game_states.disable_player.player_side = this.game_states.trump_info.player
-                    this.game_states.disable_player.player_hand = first_player_hand
+                    } else {
+                        console.log('GRacz ' + this.game_states.trump_info.player)
+                        let index = this.states.sides.indexOf(this.game_states.trump_info.player)+1
+                        
+                        ifOutOfArray(index)
+                        
+                        this.game_states.declarer_player = this.game_states.trump_info.player
+                        this.game_states.disable_player.player_side = side
+                        this.game_states.disable_player.player_hand = second_player_hand
+                    }
+                })
+            }
 
-                } else {
-                    console.log('GRacz ' + this.game_states.trump_info.player)
-                    let index = this.states.sides.indexOf(this.game_states.trump_info.player)+1
-                    ifOutOfArray(index)
-                    this.game_states.declarer_player = this.game_states.trump_info.player
-                    this.game_states.disable_player.player_side = side
-                    this.game_states.disable_player.player_hand = second_player_hand
-                }
-            })
-        }
-
-            console.log(this.game_states.starting_player)
             this.game_states.first_player = true
             this.sendInfoToPlayer(this.game_states.starting_player)
 
@@ -330,6 +322,7 @@ class Game {
 
     play(data) {
         let side, pushLeadToTeam
+        
         pushLeadToTeam = (winner) => {
 
             let side = this.states.sides[winner.side]
@@ -342,12 +335,14 @@ class Game {
                 if(this.game_states.contract.team === 'NS'){
 
                     this.game_states.tricks.push(winner)
+                    
                     console.log(`NS tricks: ${this.game_states.tricks.length}`)
 
                 }
                 } else if(side === 'W' || side === 'E') {
 
                     this.game_states.teamWE.push(winner)
+                    
                     console.log(`Team WE: ${this.game_states.teamWE}`)
 
                     if(this.game_states.contract.team === 'WE'){
@@ -365,8 +360,6 @@ class Game {
         
         this.game_states.lead.push({side: this.game_states.last_player, value: data.Value, suit: data.Suit})          
 
-        console.log(this.game_states.lead)
-
         io.in(`room${this.states.room_id}`).emit('the play', {card: data, side: this.states.sides[this.game_states.last_player]})
         
         if(this.game_states.first_player === true){
@@ -375,8 +368,6 @@ class Game {
 
             this.game_states.first_player = false
 
-            console.log(this.game_states.first_player)
-            console.log("gracz ktory nie gra ")
             player = this.players.find(x => x.player_side === this.game_states.disable_player.player_side)
             hand = player.gameStates.hand
 
@@ -395,11 +386,12 @@ class Game {
 
             pushLeadToTeam(winnerQueue)
                   
-            console.log("nastepna kolejke zaczyna:")
+            console.log("Next lead starting:")
             console.log(winnerQueue)
             console.log(this.states.sides[winnerQueue.side])
 
             this.game_states.last_player = winnerQueue.side
+            
             if(this.game_states.round_counting === 13){
 
                 this.countScore()
@@ -425,8 +417,6 @@ class Game {
         } else {
 
             this.setNextPlayer()
-
-            console.log(this.states.sides[this.game_states.last_player])
 
             if(this.states.sides[this.game_states.last_player] === this.game_states.disable_player.player_side){
                 
@@ -458,9 +448,7 @@ class Game {
 
             player = this.players.find( obj => obj.player_side === this.states.sides[this.auction_states.next_player_int])
             playerSocket = player.socketId
-            console.log(player)
-            console.log(playerSocket)
-
+            
             io.sockets.sockets[playerSocket].emit('auction queue', {'availableValues' : this.auction_states.availableValues, 'firstPlayer_bool' : false})
 
         }
@@ -574,22 +562,15 @@ class Game {
             side = Object.keys(this.game_states.players_sides)[i]
 
             side_obj.hand = hand.hand 
-            
-            console.log("czy me jest side obj")
-            console.log(playerSide)
-            console.log(this.game_states.players_sides.N.hand)
-            //console.log(io)
             player = this.players.find(x => x.player_side === side)
             index = this.players.findIndex(y => y.player_side === side)
-            console.log(player)
-            this.players[index].gameStates.hand.push(hand.hand)
-            console.log("sprawdzam kartyyy")
-            console.log(this.players[index].gameStates.hand)
-            playerSocket = player.socketId
 
-            console.log(player)
-            console.log("hand hand")
-            console.log(side_obj.hand)
+            this.players[index].gameStates.hand.push(hand.hand)
+            
+            console.log("Card checking:")
+            console.log(this.players[index].gameStates.hand)
+            
+            playerSocket = player.socketId
 
             io.sockets.sockets[playerSocket].emit('private hand', hand.hand)
 
@@ -762,6 +743,7 @@ class Game {
             let smallSlam = 0, 
                 grandSlam = 0,
                 extraPoints = 0
+            
             //penalty point
             console.log(this.game_states.trump_info.trump_card_obj.Value)
             contractPoints = colorPointsSum(this.game_states.trump_info.trump_card_obj.Value, this.game_states.contract.dbl, this.game_states.contract.redbl, 40)
@@ -812,6 +794,7 @@ class Game {
 
             extraPoints += othersPointsSum(smallSlam, grandSlam)
             console.log(extraPoints)
+            
             //rubber bonus
             if(this.game_states.points[team].part === 200 && this.game_states.points[secondTeam].part === 100){
                
