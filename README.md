@@ -23,4 +23,5 @@ To start the game use below commands:
 * ```npm start``` - iniciate server listning on port 8085 - http://localhost:8085.
 
 # Additianl commands for development environment
-* ```
+* ```npm start:dev``` - use it to live reloading
+* ```npm build``` - compile project (compilation to dist folder)
