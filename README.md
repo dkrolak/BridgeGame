@@ -18,5 +18,5 @@ This app is a simply game in bridge.
 # To run the game
 To start the game use below commants:
 
-* ```npm install``` to download dependencies.
-After run npm start to iniciate server listning on port 8085 - http://localhost:8085.
+* ```npm install``` - to download dependencies.
+* ```npm start``` - iniciate server listning on port 8085 - http://localhost:8085.
