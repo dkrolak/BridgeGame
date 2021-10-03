@@ -10,6 +10,7 @@ Build with:
 4. Node JS
 5. Express JS
 6. Socket IO
+7. Webpack
 
 # Description
 
@@ -20,3 +21,6 @@ To start the game use below commands:
 
 * ```npm install``` - to download dependencies.
 * ```npm start``` - iniciate server listning on port 8085 - http://localhost:8085.
+
+# Additianl commands for development environment
+* ```
