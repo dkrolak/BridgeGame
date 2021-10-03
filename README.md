@@ -11,6 +11,6 @@ Build with:
 5. Express JS
 6. Socket IO
 
-#Description
+# Description
 
 This app is a simply game in bridge. 
