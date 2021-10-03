@@ -14,3 +14,7 @@ Build with:
 # Description
 
 This app is a simply game in bridge. 
+
+# To run the game
+Run npm install to download dependencies.
+After run npm start to iniciate server listning on port 8085 - http://localhost:8085.
